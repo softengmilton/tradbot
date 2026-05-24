@@ -21,11 +21,10 @@ export const ModeSelector: React.FC<Props> = ({ onModeSelect, selectedMode }) =>
       <button
         className={`mode-btn ${selectedMode === "ai" ? "active" : ""}`}
         onClick={() => onModeSelect("ai")}
-        disabled
-        title="AI Mode available in Phase 2"
+        title="Requires OpenAI API key"
       >
         <div className="mode-name">🤖 AI Mode</div>
-        <div className="mode-desc">Smart • AI-Powered • Chat Enabled (Coming Soon)</div>
+        <div className="mode-desc">Smart • AI-Powered • Vision Analysis</div>
       </button>
     </div>
   );
