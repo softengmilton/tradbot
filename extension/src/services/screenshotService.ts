@@ -42,7 +42,7 @@ export const captureScreenshot = async (): Promise<string> => {
  * For now, returns mock data or requires manual entry in UI
  */
 export const extractPriceData = async (
-  screenshot: string
+  _screenshot: string
 ): Promise<PriceData | null> => {
   try {
     // Placeholder: Return mock data
@@ -62,29 +62,25 @@ export const extractPriceData = async (
 /**
  * Convert image to base64 string for API transmission
  */
+// eslint-disable-next-line no-unreachable
 export const imageToBase64 = async (
   imageUrl: string
 ): Promise<string> => {
-  try {
-    const response = await fetch(imageUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch image: ${response.statusText}`);
-    }
-
-    const blob = await response.blob();
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        resolve(base64);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  } catch (error) {
-    console.error("Image to base64 conversion error:", error);
-    throw new Error(
-      `Failed to convert image: ${error instanceof Error ? error.message : String(error)}`
-    );
+  const response = await fetch(imageUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image: ${response.statusText}`);
   }
+
+  const blob = await response.blob();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result as string;
+      resolve(base64);
+    };
+    reader.onerror = () => {
+      reject(new Error("Failed to read file"));
+    };
+    reader.readAsDataURL(blob);
+  });
 };

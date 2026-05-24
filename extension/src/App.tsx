@@ -84,6 +84,7 @@ const App: React.FC = () => {
   };
 
   const handleChatEnable = (sid: string) => {
+    setSessionId(sid);
     setChatEnabled(true);
   };
 

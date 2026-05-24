@@ -49,12 +49,14 @@
 ### Two Analysis Modes
 
 #### 🔷 Default Mode
+
 - **Speed**: Instant (< 100ms)
 - **Cost**: Free
 - **Requirements**: No API key needed
 - **Best For**: Quick analysis, learning, offline use
 
 #### 🤖 AI Mode
+
 - **Speed**: A few seconds (3-5s)
 - **Cost**: Uses OpenAI credits
 - **Requirements**: OpenAI API key
@@ -63,6 +65,7 @@
 ### Core Features
 
 ✅ **Technical Indicators**
+
 - EMA (Exponential Moving Average)
 - RSI (Relative Strength Index)
 - MACD (Moving Average Convergence Divergence)
@@ -70,18 +73,21 @@
 - Support/Resistance Detection
 
 ✅ **AI Analysis**
+
 - GPT-4 Vision chart interpretation
 - Market structure analysis
 - Pattern recognition
 - Risk/reward scenarios
 
 ✅ **Interactive Chat**
+
 - Ask follow-up questions
 - Maintain chart context
 - Multiple conversations
 - Session-based history
 
 ✅ **Professional Output**
+
 - Entry/exit recommendations
 - Stop loss levels
 - Take profit targets
@@ -105,32 +111,38 @@ Default mode uses mathematical formulas to analyze charts without any external A
 ### Reading Results
 
 #### Trend
+
 - **BULLISH** (📈): Price likely to rise
 - **BEARISH** (📉): Price likely to fall
 - **NEUTRAL** (➡️): Uncertain direction
 
 #### Confidence Level
+
 - **75-100%**: Very confident signal
 - **50-75%**: Moderate confidence
 - **25-50%**: Mixed signals
 - **0-25%**: Weak signal
 
 #### Entry Zone
+
 - **Minimum (min)**: Lowest entry price
 - **Maximum (max)**: Highest entry price
-- *Enter between these levels*
+- _Enter between these levels_
 
 #### Stop Loss
+
 - Price level where you admit you were wrong
 - Set it below the entry zone
 - Limit your potential loss
 
 #### Take Profit Targets
+
 - TP1: Conservative exit (retest support)
 - TP2: Moderate exit (mid-range)
 - Price levels to close positions
 
 #### Indicators
+
 - **EMA 20/50/200**: Trend indicators
   - Price > EMA20 > EMA50 > EMA200 = Strong uptrend
 - **RSI**: Momentum (0-100 scale)
@@ -189,15 +201,17 @@ AI Mode uses GPT-4 Vision to "see" the chart like a professional trader.
 ### AI Analysis Components
 
 #### Market Structure
+
 AI describes the current price pattern and trend structure
 
 ```
-"BTC is in a higher-high, higher-low pattern with support 
-at 63,500 and resistance at 65,500. Price consolidated above 
+"BTC is in a higher-high, higher-low pattern with support
+at 63,500 and resistance at 65,500. Price consolidated above
 the 200-day MA, showing strength."
 ```
 
 #### Technical Observations
+
 Analysis of key technical elements
 
 ```
@@ -212,6 +226,7 @@ Patterns:
 ```
 
 #### Entry Strategy
+
 Recommended entry points with rationale
 
 ```
@@ -221,6 +236,7 @@ Reasoning: Confluence of multiple reversal factors
 ```
 
 #### Risk Management
+
 Stop loss and profit targets
 
 ```
@@ -232,6 +248,7 @@ Targets:
 ```
 
 #### Scenarios
+
 What happens in different market conditions
 
 ```
@@ -240,6 +257,7 @@ Bearish Case: If breaks 63.5K, next support 62.5K
 ```
 
 #### Confidence
+
 Overall confidence in the analysis (0-100%)
 
 ---
@@ -259,21 +277,25 @@ Overall confidence in the analysis (0-100%)
 ### Great Chat Questions
 
 **About the entries**:
+
 - "Why is the entry point at 64,000?"
 - "What would be a more aggressive entry?"
 - "At what price would you exit this setup?"
 
 **About the analysis**:
+
 - "Why did you say the trend is bullish?"
 - "How confident are you in this analysis?"
 - "What are the key levels to watch?"
 
 **About risk management**:
+
 - "Where is the stop loss and why?"
 - "What's the risk/reward ratio?"
 - "How much should I risk on this trade?"
 
 **About confirmation**:
+
 - "What would invalidate this analysis?"
 - "What price action would confirm the signal?"
 - "Do higher timeframes support this view?"
@@ -289,15 +311,15 @@ Overall confidence in the analysis (0-100%)
 
 ```
 You: "Is this a good entry?"
-AI: "Yes, 64,000 provides good risk/reward with support 
+AI: "Yes, 64,000 provides good risk/reward with support
      from MA200 and recent price action."
 
 You: "What would make you wrong?"
-AI: "Break below 63,500 would invalidate the bullish 
+AI: "Break below 63,500 would invalidate the bullish
      structure. Below 63,000 would confirm a reversal."
 
 You: "Should I wait for confirmation?"
-AI: "If aggressive, enter now. Conservative traders should 
+AI: "If aggressive, enter now. Conservative traders should
      wait for a pullback to 64,000 to confirm support holds."
 ```
 
@@ -308,6 +330,7 @@ AI: "If aggressive, enter now. Conservative traders should
 ### Confidence Scores
 
 **Color Coding**:
+
 - 🟢 **Green (75-100%)**: High confidence, good risk/reward
 - 🟡 **Yellow (50-75%)**: Moderate confidence, worth considering
 - 🔴 **Red (0-50%)**: Low confidence, weak signal
@@ -315,12 +338,14 @@ AI: "If aggressive, enter now. Conservative traders should
 ### Reading Signals
 
 **✓ Confirming Signals** (bullish momentum):
+
 - EMA20 > EMA50 > EMA200
 - RSI > 50 and rising
 - MACD positive
 - Volume increasing toward target
 
 **✗ Non-Confirming** (bearish pressure):
+
 - EMA20 < EMA50 < EMA200
 - RSI < 50 and falling
 - MACD negative
@@ -339,6 +364,7 @@ Risk/Reward Ratio: 1:2 (Good!)
 ```
 
 **Rule of Thumb**:
+
 - Risk/Reward > 1:2 = Good trade setup
 - Risk/Reward > 1:3 = Excellent setup
 - Risk/Reward < 1:1 = Avoid
@@ -350,6 +376,7 @@ Risk/Reward Ratio: 1:2 (Good!)
 ### Best Practices
 
 ✅ **Do**:
+
 - Screenshot charts clearly (full screen)
 - Use appropriate timeframes (1h, 4h, daily)
 - Analyze major support/resistance areas
@@ -357,6 +384,7 @@ Risk/Reward Ratio: 1:2 (Good!)
 - Set stop losses before entering
 
 ❌ **Don't**:
+
 - Trade blurry or partial charts
 - Ignore the stop loss
 - Over-leverage small setups
@@ -366,12 +394,14 @@ Risk/Reward Ratio: 1:2 (Good!)
 ### Screenshot Tips
 
 Good screenshots:
+
 - Full chart visible
 - Clear candles/bars
 - Indicators visible
 - Proper aspect ratio
 
 Bad screenshots:
+
 - Partial chart cut off
 - Zoomed in too much
 - Blurry image
@@ -390,16 +420,19 @@ Bad screenshots:
 ### Market Conditions
 
 **Trending Market**:
+
 - Favor entries in direction of trend
 - Use MAs for entries/exits
 - Higher probability of success
 
 **Ranging Market**:
+
 - Entries at support/resistance
 - Look for bounces
 - Be prepared for breakouts
 
 **Volatile Market**:
+
 - Use larger stop losses
 - Reduce position size
 - Wait for consolidation
@@ -469,18 +502,21 @@ A: Take a clearer screenshot at higher resolution
 ## Learning Resources
 
 ### Technical Analysis Basics
+
 - EMA crossovers for trend
 - RSI for momentum
 - Support/resistance for entries/exits
 - Volume for confirmation
 
 ### Risk Management
+
 - Always use stop losses
 - Risk only 1-2% per trade
 - Target 2:1 reward/risk minimum
 - Never average down on losing trades
 
 ### Trading Psychology
+
 - Have a plan before entering
 - Follow your rules
 - Don't chase price
@@ -491,11 +527,13 @@ A: Take a clearer screenshot at higher resolution
 ## Getting Help
 
 ### Within the Extension
+
 - Check API docs: http://localhost:8000/api/docs
 - View health: http://localhost:8000/api/health
 - Check browser console: F12 → Console tab
 
 ### External Resources
+
 - TradingView Education: https://www.tradingview.com/education/
 - Investopedia: https://www.investopedia.com/
 - OpenAI Docs: https://platform.openai.com/docs
@@ -512,4 +550,4 @@ A: Take a clearer screenshot at higher resolution
 
 **Happy Trading! 📈**
 
-*Disclaimer: This tool is for educational purposes. Always conduct your own analysis and never risk more than you can afford to lose.*
+_Disclaimer: This tool is for educational purposes. Always conduct your own analysis and never risk more than you can afford to lose._

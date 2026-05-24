@@ -21,6 +21,7 @@
 ## System Requirements
 
 ### Minimum Requirements
+
 - **Python**: 3.8+
 - **Node.js**: 16+ LTS
 - **npm**: 8+
@@ -28,12 +29,14 @@
 - **Disk**: 500MB free space
 
 ### Recommended Requirements
+
 - **Python**: 3.10+
 - **Node.js**: 18+ LTS
 - **Memory**: 4GB RAM
 - **Browser**: Chrome/Chromium 90+
 
 ### Supported Platforms
+
 - ✅ Windows 10/11
 - ✅ macOS 10.15+
 - ✅ Linux (Ubuntu 20.04+)
@@ -352,10 +355,10 @@ In `extension/src/config.ts` (if exists):
 
 ```typescript
 export const config = {
-  BACKEND_URL: process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000',
-  API_TIMEOUT: 30000,  // 30 seconds
+  BACKEND_URL: process.env.REACT_APP_BACKEND_URL || "http://localhost:8000",
+  API_TIMEOUT: 30000, // 30 seconds
   CACHE_ANALYSIS: true,
-  LOG_LEVEL: 'info'
+  LOG_LEVEL: "info",
 };
 ```
 
@@ -424,10 +427,12 @@ pytest test_integration.py::TestAnalysisEndpoint -v
 ### Hot Reload
 
 **Backend (FastAPI)**:
+
 - Auto-reload enabled by default with `python main.py`
 - Edit `.py` files, server restarts automatically
 
 **Frontend (React)**:
+
 - Hot reload enabled with `npm run dev`
 - Edit `.tsx` files, browser updates automatically
 
@@ -447,7 +452,7 @@ logger.debug("Debug message")
 
 ```typescript
 // In Chrome DevTools
-console.log('Debug message');
+console.log("Debug message");
 
 // Or enable React DevTools extension
 // https://chrome.google.com/webstore/detail/react-developer-tools
@@ -456,6 +461,7 @@ console.log('Debug message');
 ### Code Style
 
 **Python** (PEP 8):
+
 ```bash
 pip install black flake8
 black backend/
@@ -463,6 +469,7 @@ flake8 backend/
 ```
 
 **TypeScript** (ESLint):
+
 ```bash
 cd extension
 npm install --save-dev eslint
@@ -476,6 +483,7 @@ npx eslint src/
 ### Backend Issues
 
 **Port Already in Use**:
+
 ```bash
 # Change port
 uvicorn main:app --port 8001
@@ -486,6 +494,7 @@ uvicorn main:app --port 8001
 ```
 
 **Module Not Found**:
+
 ```bash
 # Ensure virtual environment activated
 # Reinstall dependencies
@@ -493,6 +502,7 @@ pip install -r requirements.txt --force-reinstall
 ```
 
 **OpenAI API Error**:
+
 ```
 - Check OPENAI_API_KEY in .env
 - Verify API key is valid: https://platform.openai.com/api-keys
@@ -501,6 +511,7 @@ pip install -r requirements.txt --force-reinstall
 ```
 
 **CORS Error**:
+
 ```
 - Check backend CORS configuration in main.py
 - Verify extension origin matches ALLOWED_ORIGINS
@@ -510,18 +521,21 @@ pip install -r requirements.txt --force-reinstall
 ### Frontend Issues
 
 **Extension Not Loading**:
+
 1. Clear cache: `chrome://extensions/` → Clear cache
 2. Reload extension: F5 or refresh button
 3. Rebuild: `npm run build`
 4. Re-load in Chrome
 
 **Connection Error**:
+
 1. Verify backend running: `http://localhost:8000/api/health`
 2. Check BACKEND_URL in code
 3. Check CORS settings
 4. Check browser console for errors
 
 **Build Errors**:
+
 ```bash
 # Clear node_modules and rebuild
 rm -rf node_modules
@@ -531,13 +545,13 @@ npm run build
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| "Module 'openai' not found" | `pip install openai==1.3.0` |
-| "Cannot find module 'react'" | `cd extension && npm install` |
-| "Port 8000 already in use" | Use different port:  `--port 8001` |
-| "TypeScript errors" | `npm install -g typescript` |
-| "Chrome extension won't load" | Clear cache and reload |
+| Issue                         | Solution                          |
+| ----------------------------- | --------------------------------- |
+| "Module 'openai' not found"   | `pip install openai==1.3.0`       |
+| "Cannot find module 'react'"  | `cd extension && npm install`     |
+| "Port 8000 already in use"    | Use different port: `--port 8001` |
+| "TypeScript errors"           | `npm install -g typescript`       |
+| "Chrome extension won't load" | Clear cache and reload            |
 
 ---
 

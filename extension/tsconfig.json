@@ -1,38 +1,56 @@
 {
-  "compilerOptions": {
-    "target": "es2020",
-    "lib": ["es2020", "dom", "dom.iterable"],
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "baseUrl": "./src",
-    "paths": {
-      "@services/*": ["services/*"],
-      "@components/*": ["components/*"],
-      "@types/*": ["types/*"],
-      "@styles/*": ["styles/*"]
+    "compilerOptions": {
+        "target": "es2020",
+        "lib": [
+            "es2020",
+            "dom",
+            "dom.iterable"
+        ],
+        "jsx": "react-jsx",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "baseUrl": "./src",
+        "paths": {
+            "@services/*": [
+                "services/*"
+            ],
+            "@components/*": [
+                "components/*"
+            ],
+            "@types/*": [
+                "types/*"
+            ],
+            "@styles/*": [
+                "styles/*"
+            ]
+        },
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true
     },
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "build", "dist"]
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "dist"
+    ]
 }

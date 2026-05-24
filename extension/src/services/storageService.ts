@@ -5,12 +5,6 @@
 
 type StorageValue = string | number | boolean | Record<string, any> | any[];
 
-interface StorageResult {
-  success: boolean;
-  data?: StorageValue;
-  error?: string;
-}
-
 export const storageService = {
   /**
    * Get a value from storage

@@ -23,6 +23,7 @@
 Before deploying to production, verify all items:
 
 ### Security
+
 - [ ] Remove DEBUG=True from .env
 - [ ] Use strong OPENAI_API_KEY
 - [ ] Update ALLOWED_ORIGINS in CORS config
@@ -33,6 +34,7 @@ Before deploying to production, verify all items:
 - [ ] Input validation enabled (done)
 
 ### Performance
+
 - [ ] Frontend minified (npm run build)
 - [ ] Backend using gunicorn/uvicorn workers
 - [ ] Caching configured
@@ -41,6 +43,7 @@ Before deploying to production, verify all items:
 - [ ] Load testing completed
 
 ### Testing
+
 - [ ] Unit tests passing (100%)
 - [ ] Integration tests passing
 - [ ] Load tests at 1000+ requests/sec
@@ -48,12 +51,14 @@ Before deploying to production, verify all items:
 - [ ] UAT signed off
 
 ### Documentation
+
 - [ ] API documentation complete
 - [ ] Deployment runbook created
 - [ ] Incidents procedures documented
 - [ ] Support contacts defined
 
 ### Monitoring
+
 - [ ] Logging configured
 - [ ] Metrics collection setup
 - [ ] Alerts configured
@@ -66,6 +71,7 @@ Before deploying to production, verify all items:
 ### Option 1: Heroku Deployment
 
 **Prerequisites**:
+
 - Heroku account (https://www.heroku.com)
 - Heroku CLI installed
 
@@ -89,6 +95,7 @@ curl https://trading-chart-analyzer.herokuapp.com/api/health
 ```
 
 **Procfile** (create in root):
+
 ```
 web: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 4
 ```
@@ -103,11 +110,13 @@ web: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 4
    - Region: Closest to users
 
 2. **SSH into Droplet**:
+
 ```bash
 ssh root@your_droplet_ip
 ```
 
 3. **Setup Environment**:
+
 ```bash
 apt update
 apt install python3 python3-pip python3-venv git nginx
@@ -130,12 +139,14 @@ nano .env
 ```
 
 4. **Configure Gunicorn**:
+
 ```bash
 # Create gunicorn service
 sudo nano /etc/systemd/system/trading-analyzer.service
 ```
 
 Add:
+
 ```ini
 [Unit]
 Description=Trading Chart Analyzer
@@ -155,17 +166,20 @@ WantedBy=multi-user.target
 ```
 
 Start service:
+
 ```bash
 sudo systemctl start trading-analyzer
 sudo systemctl enable trading-analyzer
 ```
 
 5. **Configure Nginx**:
+
 ```bash
 sudo nano /etc/nginx/sites-available/trading-analyzer
 ```
 
 Add:
+
 ```nginx
 server {
     listen 80;
@@ -187,6 +201,7 @@ server {
 ```
 
 Enable site:
+
 ```bash
 sudo ln -s /etc/nginx/sites-available/trading-analyzer /etc/nginx/sites-enabled/
 sudo nginx -t
@@ -194,12 +209,14 @@ sudo systemctl restart nginx
 ```
 
 6. **Enable HTTPS** (Let's Encrypt):
+
 ```bash
 sudo apt install certbot python3-certbot-nginx
 sudo certbot --nginx -d trading-analyzer.com
 ```
 
 7. **Setup Firewall**:
+
 ```bash
 sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
@@ -212,6 +229,7 @@ sudo ufw enable
 **Using AWS Lambda + API Gateway**:
 
 1. **Prepare**:
+
 ```bash
 pip install zappa
 
@@ -235,6 +253,7 @@ zappa update production
 ### Option 4: Docker Deployment
 
 **Create Dockerfile**:
+
 ```dockerfile
 FROM python:3.10-slim
 
@@ -249,8 +268,9 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 **Docker Compose**:
+
 ```yaml
-version: '3.8'
+version: "3.8"
 services:
   api:
     build: ./backend
@@ -263,6 +283,7 @@ services:
 ```
 
 Deploy:
+
 ```bash
 docker-compose up -d
 ```
@@ -278,23 +299,26 @@ See **Chrome Web Store Publication** section below.
 ### Option 2: Self-Hosted
 
 1. **Build**:
+
 ```bash
 cd extension
 npm run build
 ```
 
 2. **Upload to CDN** (AWS S3, Cloudflare, etc):
+
 ```bash
 # Example: S3
 aws s3 sync public/ s3://my-bucket/extension/
 ```
 
 3. **Host manifest.json**:
-Update manifest to point to hosted resources
+   Update manifest to point to hosted resources
 
 ### Option 3: Direct Distribution
 
 Share `.crx` file (Chrome extension package):
+
 ```bash
 # In Chrome DevTools
 # More tools → Extensions → Pack extension
@@ -322,6 +346,7 @@ Share `.crx` file (Chrome extension package):
 ### Submission Steps
 
 1. **Create Store Listing**:
+
 ```json
 {
   "name": "Trading Chart Analyzer - AI Powered",
@@ -343,11 +368,13 @@ Share `.crx` file (Chrome extension package):
 3. **Store Listing Details**:
 
 **Short Description** (132 chars):
+
 ```
 Professional trading chart analysis with AI and technical indicators
 ```
 
 **Full Description** (4000 chars max):
+
 ```
 Trading Chart Analyzer provides instant professional trading analysis:
 
@@ -381,12 +408,14 @@ Note: Requires OpenAI API key for AI mode (free tier available).
 ```
 
 4. **Screenshots** (1280x800 PNG):
+
 - Screenshot 1: Default mode analysis
 - Screenshot 2: AI analysis results
 - Screenshot 3: Chat interface
 - Screenshot 4: Entry/exit levels
 
 5. **Icon Assets**:
+
 - 128x128 (app icon)
 - 16x16 (favicon)
 - PNG format, transparent background
@@ -400,10 +429,12 @@ Note: Requires OpenAI API key for AI mode (free tier available).
 7. **Privacy Policy**:
 
 Create `PRIVACY.md`:
+
 ```markdown
 # Privacy Policy
 
 We do not collect user data. Images analyzed are:
+
 - Stored temporarily in memory
 - Not saved or transmitted
 - Deleted after 60 minutes
@@ -446,6 +477,7 @@ logger = ProductionLogger.setup()
 ```
 
 **Alert on Errors**:
+
 ```python
 # Send alerts to email/Slack
 if error_rate > 0.05:  # 5% error rate
@@ -465,6 +497,7 @@ curl https://api.trading-analyzer.com/api/health
 ### Log Aggregation
 
 **ELK Stack** or **CloudWatch**:
+
 ```bash
 # Forward logs to centralized system
 docker run logspout:latest \
@@ -478,6 +511,7 @@ docker run logspout:latest \
 ### Horizontal Scaling
 
 **Load Balancer** (nginx/HAProxy):
+
 ```bash
 # Multiple API instances
 api1.trading-analyzer.com:8000
@@ -492,6 +526,7 @@ nginx
 ```
 
 **Configuration**:
+
 ```nginx
 upstream api {
     server api1.trading-analyzer.com:8000;
@@ -502,7 +537,7 @@ upstream api {
 server {
     listen 443 ssl;
     server_name api.trading-analyzer.com;
-    
+
     location /api/ {
         proxy_pass http://api;
     }
@@ -609,11 +644,13 @@ systemctl restart trading-analyzer
 ## Maintenance Windows
 
 **Recommended Schedule**:
+
 - Tuesday 2-4 AM UTC
 - Notify users 1 week ahead
 - Keep downtime < 30 minutes
 
 **Steps**:
+
 1. Announce maintenance
 2. Set maintenance page
 3. Run migrations

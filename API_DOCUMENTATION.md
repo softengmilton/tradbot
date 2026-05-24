@@ -8,6 +8,7 @@
 ## Overview
 
 The Trading Chart Analyzer API provides two analysis modes for trading charts:
+
 - **Default Mode**: Fast, formula-based technical analysis using indicators
 - **AI Mode**: GPT-4 Vision-based analysis with follow-up chat capabilities
 
@@ -38,6 +39,7 @@ Default mode requires no authentication.
 **Description**: Check API health and performance metrics
 
 **Response**:
+
 ```json
 {
   "status": "healthy",
@@ -53,6 +55,7 @@ Default mode requires no authentication.
 ```
 
 **Status Codes**:
+
 - `200 OK` - API is healthy
 
 ---
@@ -64,6 +67,7 @@ Default mode requires no authentication.
 **Description**: Analyze a trading chart using either default or AI mode
 
 **Request Body**:
+
 ```json
 {
   "mode": "default|ai",
@@ -82,6 +86,7 @@ Default mode requires no authentication.
 | timeframe | string | No | Chart timeframe (e.g., 1h, 4h) |
 
 **DEFAULT MODE Response**:
+
 ```json
 {
   "mode": "default",
@@ -96,11 +101,7 @@ Default mode requires no authentication.
   "take_profit_2": 66000,
   "support": 63000,
   "resistance": 65500,
-  "signals": [
-    "EMA20 > EMA50",
-    "RSI > 50",
-    "Volume increasing"
-  ],
+  "signals": ["EMA20 > EMA50", "RSI > 50", "Volume increasing"],
   "indicators": {
     "ema20": 64250,
     "ema50": 64100,
@@ -112,6 +113,7 @@ Default mode requires no authentication.
 ```
 
 **AI MODE Response**:
+
 ```json
 {
   "mode": "ai",
@@ -145,12 +147,14 @@ Default mode requires no authentication.
 ```
 
 **Status Codes**:
+
 - `200 OK` - Analysis successful
 - `400 Bad Request` - Invalid mode or missing required fields
 - `422 Unprocessable Entity` - Validation error
 - `500 Internal Server Error` - Server error
 
 **Example cURL Request** (Default Mode):
+
 ```bash
 curl -X POST "http://localhost:8000/api/analyze" \
   -H "Content-Type: application/json" \
@@ -176,6 +180,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 | session_id | string | Session UUID from initial AI analysis |
 
 **Response**:
+
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
@@ -200,6 +205,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 ```
 
 **Status Codes**:
+
 - `200 OK` - Session found
 - `404 Not Found` - Session not found or expired
 - `500 Internal Server Error` - Server error
@@ -213,6 +219,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 **Description**: Retrieve only message history from a session
 
 **Response**:
+
 ```json
 [
   {
@@ -229,6 +236,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 ```
 
 **Status Codes**:
+
 - `200 OK` - Messages retrieved
 - `404 Not Found` - Session not found
 
@@ -241,6 +249,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 **Description**: Send follow-up question and get AI response
 
 **Request Body**:
+
 ```json
 {
   "session_id": "550e8400-e29b-41d4-a716-446655440000",
@@ -255,6 +264,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 | message | string | Yes | User question/message (max 5000 chars) |
 
 **Response**:
+
 ```json
 {
   "session_id": "550e8400-e29b-41d4-a716-446655440000",
@@ -265,6 +275,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 ```
 
 **Status Codes**:
+
 - `200 OK` - Response generated
 - `400 Bad Request` - Invalid message format
 - `404 Not Found` - Session not found
@@ -272,6 +283,7 @@ curl -X POST "http://localhost:8000/api/analyze" \
 - `500 Internal Server Error` - AI API error
 
 **Example Message** (What to ask):
+
 - "Why is this a bearish setup?"
 - "What would invalidate this analysis?"
 - "What's your risk/reward ratio?"
@@ -293,6 +305,7 @@ All errors follow this format:
 ### Common Errors
 
 **Invalid Mode**:
+
 ```json
 {
   "detail": "Invalid mode"
@@ -300,6 +313,7 @@ All errors follow this format:
 ```
 
 **Missing Image** (AI mode):
+
 ```json
 {
   "detail": "Image required for AI analysis"
@@ -307,6 +321,7 @@ All errors follow this format:
 ```
 
 **Session Not Found**:
+
 ```json
 {
   "detail": "Session not found"
@@ -314,6 +329,7 @@ All errors follow this format:
 ```
 
 **Invalid JSON**:
+
 ```json
 {
   "detail": "Invalid request format"
@@ -329,6 +345,7 @@ All errors follow this format:
 - Chat: 200 messages per session
 
 Responses include rate limit headers:
+
 ```
 RateLimit-Limit: 100
 RateLimit-Remaining: 95
@@ -358,14 +375,14 @@ RateLimit-Reset: 1716551400
 
 ## Performance Characteristics
 
-| Operation | Avg Time | Max Time |
-|-----------|----------|----------|
-| Default Analysis | 50ms | 200ms |
-| AI Analysis | 3-5s | 10s* |
-| Chat Response | 2-3s | 8s* |
-| Session Retrieve | 10ms | 50ms |
+| Operation        | Avg Time | Max Time |
+| ---------------- | -------- | -------- |
+| Default Analysis | 50ms     | 200ms    |
+| AI Analysis      | 3-5s     | 10s\*    |
+| Chat Response    | 2-3s     | 8s\*     |
+| Session Retrieve | 10ms     | 50ms     |
 
-*Depends on OpenAI API performance
+\*Depends on OpenAI API performance
 
 ---
 
@@ -374,6 +391,7 @@ RateLimit-Reset: 1716551400
 **Supported Formats**: PNG, JPG, JPEG
 
 **Specifications**:
+
 - Minimum Resolution: 640x480
 - Maximum Size: 20MB
 - Aspect Ratio: Any
@@ -382,6 +400,7 @@ RateLimit-Reset: 1716551400
 **Encoding**: Base64 string of raw image bytes
 
 **Example**:
+
 ```
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...
 // or just
@@ -415,38 +434,38 @@ Visit `http://localhost:8000/api/docs` for interactive API testing.
 
 ```typescript
 // Default Mode Analysis
-const response = await fetch('http://localhost:8000/api/analyze', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("http://localhost:8000/api/analyze", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    mode: 'default',
+    mode: "default",
     image: base64Image,
-    symbol: 'BTCUSD'
-  })
+    symbol: "BTCUSD",
+  }),
 });
 const result = await response.json();
 
 // AI Mode Analysis
-const aiResponse = await fetch('http://localhost:8000/api/analyze', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const aiResponse = await fetch("http://localhost:8000/api/analyze", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    mode: 'ai',
+    mode: "ai",
     image: base64Image,
-    symbol: 'BTCUSD'
-  })
+    symbol: "BTCUSD",
+  }),
 });
 const aiResult = await aiResponse.json();
 const sessionId = aiResult.session_id;
 
 // Chat
-const chatResponse = await fetch('http://localhost:8000/api/chat', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const chatResponse = await fetch("http://localhost:8000/api/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     session_id: sessionId,
-    message: 'What is your confidence level?'
-  })
+    message: "What is your confidence level?",
+  }),
 });
 const chatResult = await chatResponse.json();
 ```
@@ -489,6 +508,7 @@ chat_result = chat_response.json()
 ## Changelog
 
 ### Version 3.0.0
+
 - Added AI chat system with session management
 - Enhanced security and CORS configuration
 - Added performance monitoring
@@ -496,11 +516,13 @@ chat_result = chat_response.json()
 - Improved error handling
 
 ### Version 2.0.0
+
 - Added AI mode with GPT-4 Vision
 - Session storage implementation
 - Chat endpoint preparation
 
 ### Version 1.0.0
+
 - Default mode formula-based analysis
 - REST API endpoints
 - Basic error handling
@@ -510,6 +532,7 @@ chat_result = chat_response.json()
 ## Support & Issues
 
 For API issues, check:
+
 1. API health: GET `/api/health`
 2. API docs: GET `/api/docs`
 3. Backend logs: Check console output
