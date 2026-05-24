@@ -1,5 +1,11 @@
+/**
+ * API Service
+ * Handles all communication with the backend API
+ */
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
+// Request/Response Types
 export interface AnalysisRequest {
   mode: "default" | "ai";
   image?: string; // base64
@@ -60,10 +66,31 @@ export interface AIAnalysisResponse {
   timestamp: string;
 }
 
+export interface HealthCheckResponse {
+  status: string;
+  version: string;
+  uptime: string;
+}
+
 export type APIResponse = AnalysisResponse | AIAnalysisResponse;
 
+// Custom Error Class
+export class APIError extends Error {
+  constructor(
+    public statusCode: number,
+    public details: string,
+    message: string
+  ) {
+    super(message);
+    this.name = "APIError";
+  }
+}
+
+/**
+ * Analyze a chart image
+ */
 export const analyzeChart = async (
-  request: AnalysisRequest,
+  request: AnalysisRequest
 ): Promise<APIResponse> => {
   try {
     const response = await fetch(`${BACKEND_URL}/api/analyze`, {
@@ -73,68 +100,83 @@ export const analyzeChart = async (
     });
 
     if (!response.ok) {
-      throw new Error(`Analysis failed: ${response.statusText}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new APIError(
+        response.status,
+        errorData.detail || errorData.message || response.statusText,
+        `Analysis failed: ${response.statusText}`
+      );
     }
 
-    const data = await response.json();
-    
+    const data: APIResponse = await response.json();
+
     // For AI responses, ensure analysis is parsed
-    if (data.mode === "ai" && typeof data.analysis === "string") {
+    if (data.mode === "ai" && "analysis" in data && typeof data.analysis === "string") {
       try {
-        data.analysis = JSON.parse(data.analysis);
+        (data as AIAnalysisResponse).analysis = JSON.parse(data.analysis);
       } catch (e) {
-        console.error("Failed to parse AI analysis JSON:", e);
+        console.error("Failed to parse AI analysis JSON:", e instanceof Error ? e.message : String(e));
         throw new Error("Invalid AI response format");
       }
     }
 
     return data;
   } catch (error) {
-    console.error('API error:', error);
-    throw error;
+    console.error("API error:", error);
+    if (error instanceof APIError) {
+      throw error;
+    }
+    throw new APIError(
+      0,
+      "Network error",
+      error instanceof Error ? error.message : "Unknown API error"
+    );
   }
 };
 
-export const healthCheck = async (): Promise<boolean> => {
+/**
+ * Check backend health status
+ */
+export const healthCheck = async (): Promise<HealthCheckResponse> => {
   try {
     const response = await fetch(`${BACKEND_URL}/api/health`);
-    return response.ok;
+
+    if (!response.ok) {
+      throw new APIError(
+        response.status,
+        response.statusText,
+        "Health check failed"
+      );
+    }
+
+    const data: HealthCheckResponse = await response.json();
+    return data;
   } catch (error) {
-    console.error('Health check failed:', error);
-    return false;
+    console.error("Health check error:", error);
+    throw new APIError(
+      0,
+      "Network error",
+      error instanceof Error ? error.message : "Health check failed"
+    );
   }
 };
 
-export const getSession = async (sessionId: string): Promise<any> => {
+/**
+ * Get API status and version
+ */
+export const getAPIStatus = async (): Promise<{
+  isHealthy: boolean;
+  version?: string;
+  uptime?: string;
+}> => {
   try {
-    const response = await fetch(`${BACKEND_URL}/api/session/${sessionId}`);
-    if (!response.ok) {
-      throw new Error("Session not found");
-    }
-    return response.json();
-  } catch (error) {
-    console.error('Session fetch error:', error);
-    throw error;
-  }
-};
-
-export const addSessionMessage = async (
-  sessionId: string,
-  role: "user" | "assistant",
-  content: string
-): Promise<void> => {
-  try {
-    const response = await fetch(`${BACKEND_URL}/api/session/${sessionId}/message`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ role, content }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to add message");
-    }
-  } catch (error) {
-    console.error('Add message error:', error);
-    throw error;
+    const health = await healthCheck();
+    return {
+      isHealthy: health.status === "healthy",
+      version: health.version,
+      uptime: health.uptime,
+    };
+  } catch {
+    return { isHealthy: false };
   }
 };
