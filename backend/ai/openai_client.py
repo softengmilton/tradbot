@@ -8,8 +8,16 @@ class OpenAIAnalyzer:
     def __init__(self):
         self.api_key = os.getenv("OPENAI_API_KEY", "")
         self.model = "gpt-4-vision-preview"
+        self.chat_model = "gpt-4"
+        self.client = None
         
-        if not self.api_key:
+        if self.api_key:
+            try:
+                import openai
+                self.client = openai.OpenAI(api_key=self.api_key)
+            except Exception as e:
+                logger.warning(f"Failed to initialize OpenAI client: {e}")
+        else:
             logger.warning("OPENAI_API_KEY not configured. AI mode will fail.")
 
     def analyze_chart(self, image_base64: str, symbol: Optional[str] = None) -> dict:
@@ -26,18 +34,13 @@ class OpenAIAnalyzer:
         from ai.prompts import CHART_ANALYSIS_PROMPT
         
         try:
-            # Import here to avoid import errors if openai not installed
-            import openai
-            
-            if not self.api_key:
+            if not self.client:
                 return {
                     "status": "error",
                     "message": "OPENAI_API_KEY not configured"
                 }
-
-            client = openai.OpenAI(api_key=self.api_key)
             
-            response = client.chat.completions.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {

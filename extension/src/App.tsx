@@ -3,6 +3,7 @@ import { ModeSelector } from "./components/ModeSelector";
 import { AnalysisPanel } from "./components/AnalysisPanel";
 import { ResultDisplay } from "./components/ResultDisplay";
 import { AIResultDisplay } from "./components/AIResultDisplay";
+import { ChatPanel } from "./components/ChatPanel";
 import { analyzeChart, AnalysisResponse } from "./services/apiService";
 import { captureScreenshot } from "./services/screenshotService";
 import "./styles/globals.css";
@@ -40,6 +41,7 @@ const App: React.FC = () => {
   const [aiResult, setAiResult] = useState<AIAnalysis | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [chatEnabled, setChatEnabled] = useState(false);
 
   const handleAnalyze = async () => {
     if (!mode) {
@@ -82,35 +84,48 @@ const App: React.FC = () => {
   };
 
   const handleChatEnable = (sid: string) => {
-    // Placeholder for Phase 3 chat functionality
-    console.log("Chat enabled for session:", sid);
-    alert("AI Chat mode coming in Phase 3!");
+    setChatEnabled(true);
+  };
+
+  const handleChatClose = () => {
+    setChatEnabled(false);
   };
 
   return (
     <div className="app">
       <h1>📊 Trading Chart Analyzer</h1>
 
-      <ModeSelector onModeSelect={setMode} selectedMode={mode} />
+      {!chatEnabled ? (
+        <>
+          <ModeSelector onModeSelect={setMode} selectedMode={mode} />
 
-      <AnalysisPanel
-        onAnalyze={handleAnalyze}
-        disabled={!mode || loading}
-        loading={loading}
-      />
+          <AnalysisPanel
+            onAnalyze={handleAnalyze}
+            disabled={!mode || loading}
+            loading={loading}
+          />
 
-      {error && <div className="error">{error}</div>}
+          {error && <div className="error">{error}</div>}
 
-      {mode === "default" && result && (
-        <ResultDisplay result={result} loading={false} />
-      )}
+          {mode === "default" && result && (
+            <ResultDisplay result={result} loading={false} />
+          )}
 
-      {mode === "ai" && aiResult && sessionId && (
-        <AIResultDisplay
-          analysis={aiResult}
-          sessionId={sessionId}
-          onChatEnable={handleChatEnable}
-        />
+          {mode === "ai" && aiResult && sessionId && (
+            <AIResultDisplay
+              analysis={aiResult}
+              sessionId={sessionId}
+              onChatEnable={handleChatEnable}
+            />
+          )}
+        </>
+      ) : (
+        sessionId && (
+          <ChatPanel
+            sessionId={sessionId}
+            onClose={handleChatClose}
+          />
+        )
       )}
     </div>
   );

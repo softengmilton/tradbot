@@ -138,9 +138,9 @@ export const AIResultDisplay: React.FC<Props> = ({ analysis, sessionId, onChatEn
       <button
         className="enable-chat-btn"
         onClick={() => onChatEnable?.(sessionId)}
-        title="Chat mode coming in Phase 3"
+        title="Start chatting about this analysis"
       >
-        💬 Enable AI Chat (Phase 3)
+        💬 Enable AI Chat
       </button>
     </div>
   );

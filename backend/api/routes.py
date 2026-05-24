@@ -98,6 +98,78 @@ async def get_session(session_id: str):
     
     return session
 
+class ChatRequest(BaseModel):
+    session_id: str
+    message: str
+
+@router.post("/chat")
+async def chat(request: ChatRequest):
+    """
+    Chat endpoint for follow-up questions on chart analysis
+    
+    Expects:
+    {
+        "session_id": "uuid",
+        "message": "user question"
+    }
+    """
+    
+    session_id = request.session_id
+    user_message = request.message
+    
+    # Retrieve session
+    session = session_store.get_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    # Add user message to history
+    session_store.add_message(session_id, "user", user_message)
+    
+    # Build context for AI
+    system_message = f"""You are an expert trading analyst discussing a chart analysis.
+Original analysis summary: {session['analysis']}
+Chart symbol: {session['symbol']}
+
+Remember the chart context and answer questions about it. Be concise and trading-focused."""
+    
+    # Build message history for OpenAI
+    messages = [
+        {"role": "system", "content": system_message}
+    ]
+    
+    # Add previous messages
+    for msg in session_store.get_messages(session_id) or []:
+        messages.append({
+            "role": msg["role"],
+            "content": msg["content"]
+        })
+    
+    try:
+        # Get AI response using OpenAI client
+        response = ai_analyzer.client.chat.completions.create(
+            model="gpt-4",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=500
+        )
+        
+        ai_response = response.choices[0].message.content
+        tokens_used = response.usage.total_tokens if hasattr(response, 'usage') else 0
+        
+        # Store AI response in history
+        session_store.add_message(session_id, "assistant", ai_response)
+        
+        return {
+            "session_id": session_id,
+            "response": ai_response,
+            "tokens_used": tokens_used,
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    except Exception as e:
+        logger.error(f"Chat error: {e}")
+        raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
+
 @router.get("/session/{session_id}/messages")
 async def get_session_messages(session_id: str):
     """Get chat messages for a session"""
