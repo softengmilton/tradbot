@@ -3,7 +3,11 @@
   "name": "Trading Chart Analyzer",
   "version": "1.0.0",
   "description": "AI-powered trading chart analysis",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "scripting", "storage", "tabs"],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "<all_urls>"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icons": {
@@ -12,10 +16,7 @@
       "128": "icons/icon-128.png"
     }
   },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "host_permissions": [
-    "http://localhost:8000/*"
-  ]
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'self'"
+  }
 }
